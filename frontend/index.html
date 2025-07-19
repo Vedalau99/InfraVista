@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>InfraVista</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      margin-bottom: 1rem;
+      padding: 10px;
+      font-family: monospace;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    #diagram {
+      margin-top: 2rem;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .mermaid {
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🧠 InfraVista</h1>
+  <p>Paste your Terraform-style JSON below to visualize your cloud infrastructure:</p>
+
+  <textarea id="inputJson">{ "resource": { "aws_s3_bucket": { "mybucket": {} }, "aws_lambda_function": { "mylambda": {} } } }</textarea><br>
+  <button onclick="generateDiagram()">Generate Diagram</button>
+
+  <div id="diagram">
+    <pre class="mermaid" id="mermaidOutput">graph TD;</pre>
+  </div>
+
+  <script>
+    async function generateDiagram() {
+      const input = document.getElementById("inputJson").value;
+
+      try {
+        const response = await fetch("https://htkwhez2mt.us-east-1.awsapprunner.com/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: input
+        });
+
+        if (!response.ok) {
+          throw new Error("API request failed: " + response.status);
+        }
+
+        const data = await response.json();
+        const output = document.getElementById("mermaidOutput");
+        output.textContent = data.diagram;
+
+        mermaid.initialize({ startOnLoad: false });
+        mermaid.init(undefined, output);
+      } catch (error) {
+        alert("Error generating diagram:\n" + error.message);
+        console.error(error);
+      }
+    }
+  </script>
+
+</body>
+</html>
