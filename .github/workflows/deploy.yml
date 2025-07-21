@@ -29,5 +29,5 @@ jobs:
       - name: Tag Docker image
         run: docker tag infravista:latest ${{ secrets.ECR_REPOSITORY }}:latest
 
-      - name: Push Docker image to Amazon ECR
+      - name: Push Docker image to ECR
         run: docker push ${{ secrets.ECR_REPOSITORY }}:latest
