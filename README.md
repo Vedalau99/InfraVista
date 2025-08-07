@@ -26,35 +26,9 @@ InfraVista is a serverless web application that \*\*visualizes cloud infrastruct
 
 
 
----
 
 
 
-\## 🧱 Architecture
-
-
-
-```text
-
-User --> S3-hosted Frontend (HTML+JS)
-
-&nbsp;          |
-
-&nbsp;          v
-
-AWS App Runner (Flask + Docker)
-
-&nbsp;          |
-
-&nbsp;          v
-
-AWS ECR (Backend container image)
-
-&nbsp;          |
-
-&nbsp;          v
-
-Terraform (ECR, IAM, App Runner, S3 Infra)
 
 
 
